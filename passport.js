@@ -29,7 +29,7 @@ const authenticateProfile = async (email, password, done) => {
         return done(null, getProfileById(id))
     })
 } 
-
+//Exporter så vi kan benytte den inde i vores server fil
 module.exports = initialize
 
 

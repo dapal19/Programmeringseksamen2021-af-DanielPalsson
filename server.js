@@ -34,7 +34,6 @@ app.use(passport.session())
 //Gør at vi kan override POST
 app.use(methodOverride("_method"))
 
-
 //Vi laver nu en middleware-funktion for at tjekke om brugeren er authenticated
 // Dette kan vi indsætte i vores andre funktioner med routing
 function checkAuthenticated (req, res, next) {
@@ -65,7 +64,11 @@ app.listen(5000)
 
 //Laver en get-request for / 
 app.get("/", checkAuthenticated, (req,res) => {
-    res.render("index.ejs",)
+    res.render("index.ejs", {name: req.user.name})
+})
+//Laver en get-request for login 
+app.get("/login", checkNotAuthenticated, (req,res) => {
+    res.render("login.ejs",)
 })
 //POST for login, 
 app.post("/login", checkNotAuthenticated, passport.authenticate("local",{
@@ -73,22 +76,18 @@ app.post("/login", checkNotAuthenticated, passport.authenticate("local",{
     failureRedirect: "login",
     failureFlash: true
 }))
-//Laver en get-request for login 
-app.get("/login", (req,res) => {
-    res.render("login.ejs",)
-})
-app.post("/login", (req,res) => {
+app.post("/login", checkNotAuthenticated, (req,res) => {
 })
 //Laver en get-request for opret bruger
-app.get("/opretprofil", (req,res) => {
+app.get("/opretprofil", checkNotAuthenticated, (req,res) => {
     res.render("opretprofil.ejs",)
 })
 //Laver en post-request som pusher oplysninger fra brugeren til vores array brugere
 // Her implementeres der desuden bcrypt, så brugerens password bliver hashed.
-app.post("/opretprofil", async (req ,res) => {
+app.post("/opretprofil", checkNotAuthenticated, async (req ,res) => {
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        brugere.push({
+        profiles.push({
             id: Date.now().toString(),
             name: req.body.name,
             email: req.body.email,
@@ -97,7 +96,7 @@ app.post("/opretprofil", async (req ,res) => {
         //Efterfølgende redirecter vi til vores login-side.
         res.redirect("/login")
         //Vi console.logger, så vi kan se om vi har tilføjet en bruger.
-        console.log(brugere)
+        console.log(profiles)
     }catch{
         res.redirect("/opretprofil")
     }})
