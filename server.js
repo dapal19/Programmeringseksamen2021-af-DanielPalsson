@@ -101,4 +101,13 @@ app.post("/opretprofil", checkNotAuthenticated, async (req ,res) => {
         res.redirect("/opretprofil")
     }})
 
+app.delete("/logout", (req, res) => {
+        req.logOut()
+        res.redirect("/login")
+    })
+app.delete("/" ,checkAuthenticated, (req, res) => {
+    req.logOut(profiles.splice(0, profiles.length))
+        res.redirect("/login")
+    })
+
   
