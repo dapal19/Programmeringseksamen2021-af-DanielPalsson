@@ -1,0 +1,14 @@
+body {
+    background-color: whitesmoke;
+    color: black;
+}
+h1{
+    text-align: center;
+}
+form {
+        height: 10em;
+        display: flex;
+        align-items: center;
+        justify-content: center 
+    }
+    

@@ -27,6 +27,7 @@ app.use(express.static("public"));
 const methodOverride = require ("method-override")
 
 const initializePassport = require("./passport.js")
+const { profile } = require("console")
 initializePassport(
     passport,
     email => profiles.find(profile => profile.email === email),
@@ -115,3 +116,23 @@ app.delete("/" ,checkAuthenticated, (req, res) => {
         res.redirect("/login")
     })
 
+//Opdater profil
+app.get("/opdaterprofil", checkAuthenticated, (req,res) => {
+    res.render("opdaterprofil.ejs")
+})
+app.put("/opdaterprofil", async (req,res) => {
+    try{
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        profiles.push({
+            id: req.user.id,
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+        })
+        profiles.splice(0, 1); //Sletter tidligere oplysninger 
+        res.redirect("/") //Redirecter tilbage til "hjem"
+        console.log(profiles) //Console.logger de nye oplysninger
+    }catch{
+        res.redirect("/opdaterprofil") //Hvis der sker en fejl, så bliver vi på opdater
+    }
+})
