@@ -13,6 +13,9 @@ const bcrypt = require ("bcrypt")
 const passport = require ("passport")
 const flash = require ("express-flash")
 const session = require ("express-session")
+//Indhenter fs så vi kan sende som JSON
+const fs = require ("fs")
+
 app.use(flash())
 app.use(session({
     //key skal være secret, da vi herved kan kryptere info fra brugeren
@@ -99,6 +102,7 @@ app.post("/opretprofil", checkNotAuthenticated, async (req ,res) => {
         })
         //Efterfølgende redirecter vi til vores login-side.
         res.redirect("/login")
+        fs.writeFileSync('data.json/profiles.json', JSON.stringify(profiles)); //Sender som JSON til JSON fil
         //Vi console.logger, så vi kan se om vi har tilføjet en bruger.
         console.log(profiles)
     }catch{
@@ -133,6 +137,7 @@ app.put("/opdaterprofil", async (req,res) => {
         //Vi splicer de tidligere oplysninger
         profiles.splice(0, 1); //Sletter tidligere oplysninger 
         res.redirect("/") //Redirecter tilbage til "hjem"
+        fs.writeFileSync('data.json/profiles.json', JSON.stringify(profiles)); //Sender som JSON til JSON fil
         console.log(profiles) //Console.logger de nye oplysninger
     }catch{
         res.redirect("/opdaterprofil") //Hvis der sker en fejl, så bliver vi på opdater
@@ -155,6 +160,7 @@ app.post("/", checkAuthenticated, (req,res) => {
             billede: req.body.billede, 
             })
             res.redirect("/items")
+            fs.writeFileSync('data.json/items.json', JSON.stringify(items));
             console.log(items)    
     })
 //Laver så vi kan opdatere vores items 
@@ -170,8 +176,9 @@ app.put("/opdatervarer", async (req,res) => {
             beskrivelse: req.body.beskrivelse,
             billede: await req.body.billede,
             })
-            items.splice(0, 1); //find ud af det
+            items.splice(0, 1);
             res.redirect("/opdatervarer")
+            fs.writeFileSync('data.json/items.json', JSON.stringify(items));
         }catch{
             res.redirect("/")
         }
