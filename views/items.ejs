@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="items.ejs">
+<h1> Her ser du en oversigt over dine varer: </h1>
+<div>
+    <% items.forEach(function(allItems) { %>
+    <tr> 
+    <td> <%=allItems.pris %> </td>
+    <br>
+    <td> <%=allItems.kategori %> </td>
+    <br>
+    <td> <%=allItems.beskrivelse %></td>
+    <br>
+    <td> <%=allItems.billede %> </td>
+    </tr>
+    <% }) %>
+</div>
+<a href="/"> Hjem </a>

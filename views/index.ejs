@@ -2,6 +2,30 @@
 
 <h1>Hej <%=name%>! Velkommen til siden </h1>
 
+<form action = "/" method="POST"> 
+<h2> Tilføj den varer, som du ønsker at sælge </h2>
+<div>
+    <label for="pris">Angiv Pris</label>
+    <input class="Skriv info" type="text" id="pris" name="pris" required>
+</div>
+<div>
+    <label for="kategori">Vælg Kategori</label>
+    <input class="Skriv info" type="text" id="kategori" name="kategori" required>
+</div>
+<div>
+    <label for="beskrivelse">Tilføj en beskrivelse af din vare</label>
+    <input class="Skriv info" type="text" id="beskrivelse" name="beskrivelse" required>
+</div>
+<div>
+    <label for="img"> Tilføj et billede af din vare </label>
+    <input type="file" id="billede" name="billede" accept="image/*" required>
+</div>
+<form action="/items">
+    <button type = "submit">Tilføj din vare </button>
+</form>
+    <a href ="/items" > Vis varer </a>
+
+
 <form action="/?_method=DELETE" method="POST">
 <button type="submit" >Slet din profil</button>
 </form>

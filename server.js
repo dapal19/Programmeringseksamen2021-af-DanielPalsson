@@ -123,12 +123,14 @@ app.get("/opdaterprofil", checkAuthenticated, (req,res) => {
 app.put("/opdaterprofil", async (req,res) => {
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        //Vi pusher nu på ny
         profiles.push({
             id: req.user.id,
             name: req.body.name,
             email: req.body.email,
             password: hashedPassword
         })
+        //Vi splicer de tidligere oplysninger
         profiles.splice(0, 1); //Sletter tidligere oplysninger 
         res.redirect("/") //Redirecter tilbage til "hjem"
         console.log(profiles) //Console.logger de nye oplysninger
@@ -136,3 +138,24 @@ app.put("/opdaterprofil", async (req,res) => {
         res.redirect("/opdaterprofil") //Hvis der sker en fejl, så bliver vi på opdater
     }
 })
+
+const items = []
+
+app.get("/items", (req,res) => {
+    res.render("items.ejs",  {
+        name: req.user.name,
+        items: items
+    })})
+app.post("/", checkAuthenticated, (req,res) => {
+        items.push({
+            pris: req.body.pris,
+            kategori: req.body.kategori,
+            beskrivelse: req.body.beskrivelse,
+            billede: req.body.billede, 
+            })
+            res.redirect("/items")
+            console.log(items)    
+    })
+
+
+
