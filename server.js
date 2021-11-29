@@ -139,6 +139,7 @@ app.put("/opdaterprofil", async (req,res) => {
     }
 })
 
+//Tilføjer items konstant som tager brugerens varer som input
 const items = []
 
 app.get("/items", (req,res) => {
@@ -156,6 +157,30 @@ app.post("/", checkAuthenticated, (req,res) => {
             res.redirect("/items")
             console.log(items)    
     })
+//Laver så vi kan opdatere vores items 
+app.get("/opdatervarer", checkAuthenticated,(req,res) => {
+    res.render("opdatervarer.ejs")
+    })
+app.put("/opdatervarer", async (req,res) => {
+    try{
+        items.push({
+            id: req.user.id,
+            pris: req.body.pris,
+            kategori: req.body.kategori,
+            beskrivelse: req.body.beskrivelse,
+            billede: await req.body.billede,
+            })
+            items.splice(0, 1); //find ud af det
+            res.redirect("/opdatervarer")
+        }catch{
+            res.redirect("/")
+        }
+        console.log(items)
+    })
 
+app.delete("/items" ,checkAuthenticated, (req, res) => {
+    items.splice(0, items.length)
+    res.redirect("/")
+    })
 
 

@@ -3,7 +3,7 @@
 <h1>Hej <%=name%>! Velkommen til siden </h1>
 
 <form action = "/" method="POST"> 
-<h2> Tilføj den varer, som du ønsker at sælge </h2>
+<h2> Tilføj den varer, som du ønsker at sælge --> </h2>
 <div>
     <label for="pris">Angiv Pris</label>
     <input class="Skriv info" type="text" id="pris" name="pris" required>
@@ -23,9 +23,18 @@
 <form action="/items">
     <button type = "submit">Tilføj din vare </button>
 </form>
+
     <a href ="/items" > Vis varer </a>
 
 
+<form action="/opdatervarer?_method=PUT" method="POST">
+    <button type="submit">Opdater dine varer</button>
+</form>
+
+<form action="/items?_method=DELETE" method="POST">
+    <button type="submit" >Slet din vare</button>
+    </form>
+    
 <form action="/?_method=DELETE" method="POST">
 <button type="submit" >Slet din profil</button>
 </form>
@@ -37,6 +46,7 @@
 <form action="/opdaterprofil?_method=PUT" method="POST">
 <button type="submit">Opdater din profil</button>
 </form>
+
 
 
 

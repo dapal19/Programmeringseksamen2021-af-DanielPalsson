@@ -1,0 +1,23 @@
+<h1> Opdater oplysningerne om din vare </h1>
+    <div>
+    <form action = "/opdatervarer?_method=PUT" method="POST"> 
+    <div>
+        <label for="pris">Pris</label>
+        <input type="text" id="pris" name="pris" required>
+    </div>
+    <div>
+        <label for="kategori">kategori</label>
+        <input type="text" id="kategori" name="kategori" required>
+    </div>
+    <div>
+        <label for="beskrivelse">beskrivelse</label>
+        <input type="text" id="beskrivelse" name="beskrivelse" required>
+    </div>
+    <div>
+        <label for="img"> Tilføj et billede af din vare </label>
+        <input type="file" id="billede" name="billede" accept="image/*" required>
+    </div>
+    <button type = "submit">  Opdater vare </button>
+    <a href ="/"> Hjem </a>
+    </form>
+    </div>
