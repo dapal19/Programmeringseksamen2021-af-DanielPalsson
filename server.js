@@ -21,6 +21,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+//Til at lave css i vores ejs 
+app.use(express.static("public"));
+
 const methodOverride = require ("method-override")
 
 const initializePassport = require("./passport.js")
@@ -101,13 +104,14 @@ app.post("/opretprofil", checkNotAuthenticated, async (req ,res) => {
         res.redirect("/opretprofil")
     }})
 
+//Gør det muligt at logge ud
 app.delete("/logout", (req, res) => {
         req.logOut()
         res.redirect("/login")
     })
+//Sletter vores profil
 app.delete("/" ,checkAuthenticated, (req, res) => {
     req.logOut(profiles.splice(0, profiles.length))
         res.redirect("/login")
     })
 
-  
