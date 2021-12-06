@@ -1,14 +1,13 @@
 body {
-    background-color: whitesmoke;
+    background-color: #28C76F;
     color: black;
 }
 h1{
     text-align: center;
 }
 form {
-        height: 10em;
+        height: 2em;
         display: flex;
         align-items: center;
         justify-content: center 
     }
-    

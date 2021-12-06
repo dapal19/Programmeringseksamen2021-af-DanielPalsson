@@ -1,0 +1,25 @@
+h1{
+    text-align: center;
+    font-size: 60;
+    font-style:initial;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-optical-sizing:unset;
+}
+
+h2{
+    text-align: center;
+    font-size: 30;
+    font-style:initial;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-optical-sizing:unset;
+}
+body {
+    margin-left: 25%;
+    margin-right:25%;
+    width: 60%;
+    background-color: #28C76F;
+}
+form {
+    display: inline-block;
+    height: 16em;
+}
