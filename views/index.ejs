@@ -1,9 +1,12 @@
-<link rel="stylesheet" href="index.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="index.css">
 
 <h1>Hej <%=name%>! Velkommen til siden </h1>
 
 <form action = "/" method="POST"> 
-<h2> Tilføj den varer, som du ønsker at sælge --> </h2>
+<h2> Tilføj den varer, som du ønsker at sælge: </h2>
+<div class="udfyld">
 <div>
     <label for="pris">Angiv Pris</label>
     <input class="Skriv info" type="text" id="pris" name="pris" required>
@@ -23,30 +26,31 @@
 <form action="/items">
     <button type = "submit">Tilføj din vare </button>
 </form>
+<a href ="/items" > Vis varer </a>
+</div>
 
-    <a href ="/items" > Vis varer </a>
-
-
+<div class = "all-index">
 <form action="/opdatervarer?_method=PUT" method="POST">
-    <button type="submit">Opdater dine varer</button>
+    <button class="btn btn-primary" type="submit">Opdater dine varer</button>
 </form>
 
 <form action="/items?_method=DELETE" method="POST">
-    <button type="submit" >Slet din vare</button>
+    <button class="btn btn-primary" type="submit" >Slet din vare</button>
     </form>
     
 <form action="/?_method=DELETE" method="POST">
-<button type="submit" >Slet din profil</button>
+<button class="btn btn-primary" type="submit" >Slet din profil</button>
 </form>
 
 <form action="/logout?_method=DELETE" method="POST">
-<button type="submit">Log Out</button>
+<button class="btn btn-primary" type="submit">Log Out</button>
 </form>
 
 <form action="/opdaterprofil?_method=PUT" method="POST">
-<button type="submit">Opdater din profil</button>
+<button class="btn btn-primary" type="submit">Opdater din profil</button>
 </form>
+</div>
 
-
-
-
+<% items.forEach(function(allItems) { %>
+    <a href="/kategori/<%=allItems.kategori%>"><%= allItems.kategori %></a>
+<% }) %>
