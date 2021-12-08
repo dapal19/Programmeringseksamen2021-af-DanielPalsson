@@ -16,8 +16,6 @@ const flash = require("express-flash")
 const session = require("express-session")
 //Indhenter fs så vi kan sende som JSON
 const fs = require("fs")
-const multer = require("multer")
-
 
 app.use(flash())
 app.use(session({
@@ -29,11 +27,10 @@ app.use(session({
 }))
 //Til at lave css i vores ejs 
 app.use(express.static("views"));
-
+ 
 const methodOverride = require("method-override")
 
 const initializePassport = require("./passport.js")
-const { profile } = require("console")
 initializePassport(
     passport,
     email => profiles.find(profile => profile.email === email),
@@ -69,9 +66,6 @@ app.set("view-engine", "ejs")
 //Gør at vi kan tilknytte vores forms fra ejs til vores kode i js
 app.use(express.urlencoded({ extended: false }))
 
-//Lytter til localhost 5000
-
-
 //Laver en get-request for / 
 app.get("/", checkAuthenticated, (req, res) => {
     res.render("index.ejs", { 
@@ -81,7 +75,7 @@ app.get("/", checkAuthenticated, (req, res) => {
 })
 //Laver en get-request for login 
 app.get("/login", checkNotAuthenticated, (req, res) => {
-    res.render("login.ejs",)
+    res.render("login.ejs")
 })
 //POST for login, 
 app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
@@ -89,13 +83,11 @@ app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
     failureRedirect: "login",
     failureFlash: true
 }))
-app.post("/login", checkNotAuthenticated, (req, res) => {
-})
 //Laver en get-request for opret bruger
 app.get("/opretprofil", checkNotAuthenticated, (req, res) => {
     res.render("opretprofil.ejs",)
 })
-//Laver en post-request som pusher oplysninger fra brugeren til vores array brugere
+//Laver en post-request som pusher oplysninger fra brugeren til vores array 
 // Her implementeres der desuden bcrypt, så brugerens password bliver hashed.
 app.post("/opretprofil", checkNotAuthenticated, async (req, res) => {
     try {
@@ -108,14 +100,13 @@ app.post("/opretprofil", checkNotAuthenticated, async (req, res) => {
         })
         //Efterfølgende redirecter vi til vores login-side.
         res.redirect("/login")
-        fs.writeFileSync('data.json/profiles.json', JSON.stringify(profiles, null, 2)); //Sender som JSON til JSON fil
+        fs.writeFileSync('data/profiles.json', JSON.stringify(profiles, null, 2)); //Sender som JSON til JSON fil
         //Vi console.logger, så vi kan se om vi har tilføjet en bruger.
         console.log(profiles)
     } catch {
         res.redirect("/opretprofil")
     }
 })
-
 //Gør det muligt at logge ud
 app.delete("/logout", (req, res) => {
     req.logOut()
@@ -125,7 +116,7 @@ app.delete("/logout", (req, res) => {
 app.delete("/", checkAuthenticated, (req, res) => {
     req.logOut(profiles.splice(0, profiles.length))
     res.redirect("/login")
-    fs.writeFileSync('data.json/profiles.json', JSON.stringify(profiles))
+    fs.writeFileSync('data/profiles.json', JSON.stringify(profiles))
 })
 
 //Opdater profil
@@ -145,13 +136,12 @@ app.put("/opdaterprofil", async (req, res) => {
         //Vi splicer de tidligere oplysninger
         profiles.splice(0, 1); //Sletter tidligere oplysninger 
         res.redirect("/") //Redirecter tilbage til "hjem"
-        fs.writeFileSync('data.json/profiles.json', JSON.stringify(profiles, null, 2)); //Sender som JSON til JSON fil
+        fs.writeFileSync('data/profiles.json', JSON.stringify(profiles, null, 2)); //Sender som JSON til JSON fil
         console.log(profiles) //Console.logger de nye oplysninger
     } catch {
         res.redirect("/opdaterprofil") //Hvis der sker en fejl, så bliver vi på opdater
     }
 })
-
 //Tilføjer items konstant som tager brugerens varer som input
 const items = []
 
@@ -169,7 +159,7 @@ app.post("/", checkAuthenticated, (req, res) => {
         billede: req.body.billede,
     })
     res.redirect("/")
-    fs.writeFileSync('data.json/items.json', JSON.stringify(items, null, 2));
+    fs.writeFileSync('data/items.json', JSON.stringify(items, null, 2));
     console.log(items)
 })
 //Laver så vi kan opdatere vores items 
@@ -187,7 +177,7 @@ app.put("/opdatervarer", async (req, res) => {
         })
         items.splice(0, 1);
         res.redirect("/opdatervarer")
-        fs.writeFileSync('data.json/items.json', JSON.stringify(items, null, 2));
+        fs.writeFileSync('data/items.json', JSON.stringify(items, null, 2));
     } catch {
         res.redirect("/")
     }
@@ -197,7 +187,7 @@ app.put("/opdatervarer", async (req, res) => {
 app.delete("/items", checkAuthenticated, (req, res) => {
     items.splice(0, items.length)
     res.redirect("/")
-    fs.writeFileSync('data.json/items.json', JSON.stringify(items,))
+    fs.writeFileSync('data/items.json', JSON.stringify(items,))
     console.log("Varer slettet")
 })
 
@@ -208,10 +198,5 @@ app.get("/kategori/:kategori", checkAuthenticated, (req,res) => {
 })
 
 
+module.exports = app.listen(5000), profiles
 
-
-
-
-
-module.exports = app.listen(5000)
-module.exports = profiles 

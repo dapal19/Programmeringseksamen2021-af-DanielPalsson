@@ -21,7 +21,6 @@ const authenticateProfile = async (email, password, done) => {
         return done(e)
         }
     }
-
     passport.use(new LocalStrategy({usernameField: "email"}, 
     authenticateProfile))
     passport.serializeUser((profile,done) => done (null, profile.id))
