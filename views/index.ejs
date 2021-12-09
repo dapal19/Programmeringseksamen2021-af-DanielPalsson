@@ -23,10 +23,10 @@
     <label for="img"> Tilføj et billede af din vare </label>
     <input type="file" id="billede" name="billede" accept="image/*" required>
 </div>
-<form action="/items">
+<form action="/varer">
     <button type = "submit">Tilføj din vare </button>
 </form>
-<a href ="/items" > Vis varer </a>
+<a href ="/varer" > Vis varer </a>
 </div>
 
 <div class = "all-index">
@@ -34,7 +34,7 @@
     <button class="btn btn-primary" type="submit">Opdater dine varer</button>
 </form>
 
-<form action="/items?_method=DELETE" method="POST">
+<form action="/varer?_method=DELETE" method="POST">
     <button class="btn btn-primary" type="submit" >Slet din vare</button>
     </form>
     
@@ -51,6 +51,6 @@
 </form>
 </div>
 
-<% items.forEach(function(allItems) { %>
-    <a href="/kategori/<%=allItems.kategori%>"><%= allItems.kategori %></a>
+<% varer.forEach(function(allVarer) { %>
+    <a href="/kategori/<%=allVarer.kategori%>"><%= allVarer.kategori %></a>
 <% }) %>

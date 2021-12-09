@@ -70,7 +70,7 @@ app.use(express.urlencoded({ extended: false }))
 app.get("/", checkAuthenticated, (req, res) => {
     res.render("index.ejs", { 
         name: req.user.name, 
-        items: items
+        varer: varer
     })
 })
 //Laver en get-request for login 
@@ -142,57 +142,57 @@ app.put("/opdaterprofil", async (req, res) => {
         res.redirect("/opdaterprofil") //Hvis der sker en fejl, så bliver vi på opdater
     }
 })
-//Tilføjer items konstant som tager brugerens varer som input
-const items = []
+//Tilføjer varer konstant som tager brugerens varer som input
+const varer = []
 
-app.get("/items", (req, res) => {
-    res.render("items.ejs", {
+app.get("/varer", (req, res) => {
+    res.render("varer.ejs", {
         name: req.user.name,
-        items: items
+        varer: varer
     })
 })
 app.post("/", checkAuthenticated, (req, res) => {
-    items.push({
+    varer.push({
         pris: req.body.pris,
         kategori: req.body.kategori,
         beskrivelse: req.body.beskrivelse,
         billede: req.body.billede,
     })
     res.redirect("/")
-    fs.writeFileSync('data/items.json', JSON.stringify(items, null, 2));
-    console.log(items)
+    fs.writeFileSync('data/varer.json', JSON.stringify(varer, null, 2));
+    console.log(varer)
 })
-//Laver så vi kan opdatere vores items 
+//Laver så vi kan opdatere vores varer 
 app.get("/opdatervarer", checkAuthenticated, (req, res) => {
     res.render("opdatervarer.ejs")
 })
 app.put("/opdatervarer", async (req, res) => {
     try {
-        items.push({
+        varer.push({
             id: req.user.id,
             pris: req.body.pris,
             kategori: req.body.kategori,
             beskrivelse: req.body.beskrivelse,
             billede: await req.body.billede,
         })
-        items.splice(0, 1);
+        varer.splice(0, 1);
         res.redirect("/opdatervarer")
-        fs.writeFileSync('data/items.json', JSON.stringify(items, null, 2));
+        fs.writeFileSync('data/varer.json', JSON.stringify(varer, null, 2));
     } catch {
         res.redirect("/")
     }
-    console.log(items)
+    console.log(varer)
 })
 
-app.delete("/items", checkAuthenticated, (req, res) => {
-    items.splice(0, items.length)
+app.delete("/varer", checkAuthenticated, (req, res) => {
+    varer.splice(0, varer.length)
     res.redirect("/")
-    fs.writeFileSync('data/items.json', JSON.stringify(items,))
+    fs.writeFileSync('data/varer.json', JSON.stringify(varer,))
     console.log("Varer slettet")
 })
 
 app.get("/kategori/:kategori", checkAuthenticated, (req,res) => {
-    const kategorier = items.find(k => k.kategori === req.params.kategori) 
+    const kategorier = varer.find(k => k.kategori === req.params.kategori) 
     if (!kategorier) return "Ikke en kategori" 
     res.render("kategori.ejs", {kategorier: kategorier})
 })
